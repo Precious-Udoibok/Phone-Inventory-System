@@ -12,7 +12,7 @@ router = APIRouter(
     tags=['Authentication']
 )
 
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 
 
 @router.post('/login')

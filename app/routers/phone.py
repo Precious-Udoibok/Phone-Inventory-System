@@ -8,7 +8,6 @@ from ..repository import phone
 router = APIRouter(
     prefix='/phone',
     tags=['phone'],
-    dependencies=[Depends(oauth2.get_current_user)]
     )
 
 #view all phones with out the id

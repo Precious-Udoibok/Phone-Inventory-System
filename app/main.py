@@ -5,7 +5,14 @@ from .routers import phone,user,authentication
 from starlette.middleware.cors import CORSMiddleware
 
 
-app = FastAPI()
+app = FastAPI(
+    title="A Phone Inventory System api",
+    description='''
+            This is a phone inventory api that includes endpoints for phones(add,delete, update and view) phones\n
+            endpoints for users(add,edit,delete and view) users, including authentication for all endpoints except signup
+''',
+    version="1.0.0"
+)
 
 app.add_middleware(
     CORSMiddleware,

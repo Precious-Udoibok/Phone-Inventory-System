@@ -27,11 +27,11 @@ def get_user(id:int,db:Session=Depends(get_db),current_user=Depends(oauth2.get_c
 
 #endpoint to delete a user
 #delete your account
-@router.delete('/{id}',status_code=status.HTTP_202_ACCEPTED)
-def destroy(id,db:Session=Depends(database.get_db),current_user=Depends(oauth2.get_current_user)):
-    return User.destroy(id,db)
+@router.delete('/',status_code=status.HTTP_202_ACCEPTED)
+def destroy(db:Session=Depends(database.get_db),current_user=Depends(oauth2.get_current_user)):
+    return User.destroy(db,current_user)
 
 #endpoint to update a user details
-@router.put('/{id}',status_code=status.HTTP_202_ACCEPTED)
-def update(id,user_phone:schemas.Update_User,db:Session=Depends(database.get_db),current_user=Depends(oauth2.get_current_user)):
-    return User.update(id,user_phone,db)
+@router.put('/',status_code=status.HTTP_202_ACCEPTED)
+def update(user_phone:schemas.Update_User,db:Session=Depends(database.get_db),current_user=Depends(oauth2.get_current_user)):
+    return User.update(user_phone,db,current_user)

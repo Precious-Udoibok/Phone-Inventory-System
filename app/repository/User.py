@@ -1,6 +1,7 @@
-from .. import models,schemas,hashing
+from .. import models,schemas,hashing,oauth2
 from sqlalchemy.orm import Session
-from fastapi import HTTPException,status
+from fastapi import HTTPException,status,Depends
+
 Hash = hashing.Hash
 
 
@@ -29,20 +30,20 @@ def get_by_id(id:int,db:Session):
     return user
 
 #function to delete a user 
-def destroy(id:int,db:Session):
-    delete_user = db.query(models.User).filter(models.User.id == id)#gets the phone with the specific id
+def destroy(db:Session,current_user=Depends(oauth2.get_current_user)):
+    delete_user = db.query(models.User).filter(models.User.id == current_user)#gets the phone with the specific id
     #gets the phone with the specific id and if id is not available
     if not delete_user.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'User with the id {id} is not available')
     #if the phone id is available delte the phone
     delete_user.delete(synchronize_session=False)
     db.commit() #commit the datbase to save changes
-    return f'The User with the id {id} has been deleted'
+    return f'The User with the id {current_user} has been deleted'
 
 #function to update a user
 #function to update a phone
-def update(id:int,update_user:schemas.Update_User,db:Session): 
-    user_for_update = db.query(models.User).filter(models.User.id == id)
+def update(update_user:schemas.Update_User,db:Session,current_user=Depends(oauth2.get_current_user)): 
+    user_for_update = db.query(models.User).filter(models.User.id == current_user)
     if not user_for_update.first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Phone with the id {id} is not available')
     
@@ -62,5 +63,5 @@ def update(id:int,update_user:schemas.Update_User,db:Session):
 
     user_for_update.update(update_user.dict())
     db.commit()
-    return {f'User with id {id} updated successfully'}
+    return {f'User with id {current_user} updated successfully'}
 

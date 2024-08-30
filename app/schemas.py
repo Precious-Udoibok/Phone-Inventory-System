@@ -14,6 +14,14 @@ class ShowPhone(Phone):
     class Config():
         orm = True #set it to this, because we are using the orm query
 
+class ShowPhone_ID(BaseModel):
+    id:int
+    name:str
+    brand:str
+    color:str
+    price:str
+    quantity:int
+    description:str
 
 #Class or schema to update the phone
 class Update_Phone(BaseModel):

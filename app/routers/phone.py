@@ -12,7 +12,7 @@ router = APIRouter(
     )
 
 #view all phones with out the id
-@router.get('/',response_model=List[schemas.ShowPhone]) 
+@router.get('/',response_model=List[schemas.ShowPhone_ID]) 
 #pass in the database instance
 def get_phones(db:Session= Depends(database.get_db)):
     return phone.get_all(db)
